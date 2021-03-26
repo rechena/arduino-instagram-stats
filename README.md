@@ -29,6 +29,8 @@ Install from the Arduino Library Manager or download the Zip from here and add t
 
 #### User Data
 - Follower Count
+- Following Count
+- Posts Count
 
 ## Supported Boards:
 
