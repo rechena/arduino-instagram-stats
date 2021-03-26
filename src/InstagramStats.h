@@ -37,6 +37,8 @@ class InstagramStats {
  public:
   InstagramStats(Client &client, String accessToken, String igUserId);
   int getFollowersCount(String igUserId);
+  int getFollowingCount(String igUserId);
+  int getPostsCount(String igUserId);
   String sendGetToInstagram(String command);
   bool _debug = false;
 

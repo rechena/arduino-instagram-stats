@@ -100,8 +100,9 @@ String InstagramStats::sendGetToInstagram(String command) {
 }
 
 int InstagramStats::getFollowersCount(String igUserId) {
-	String command = "/v9.0/" + igUserId + "?fields=followers_count&access_token=" + _accessToken;
+	String command = "/v10.0/" + igUserId + "?fields=followers_count&access_token=" + _accessToken;
 	String response = sendGetToInstagram(command);
+	Serial.println(response);
 
 	if (_debug) Serial.println(response);
 
@@ -117,6 +118,47 @@ int InstagramStats::getFollowersCount(String igUserId) {
         }
   return -1;
 }
+
+int InstagramStats::getFollowingCount(String igUserId) {
+	String command = "/v10.0/" + igUserId + "?fields=follows_count&access_token=" + _accessToken;
+	String response = sendGetToInstagram(command);
+	Serial.println(response);
+
+	if (_debug) Serial.println(response);
+
+  DynamicJsonDocument doc(1024);
+  auto error = deserializeJson(doc,response);
+        if (error) {
+        Serial.print(F("deserializeJson() failed with code "));
+        Serial.println(error.c_str());
+        } 
+        else {
+        Serial.println("JSON parsing worked!"); 
+        return doc["follows_count"].as<int>();
+        }
+  return -1;
+}
+
+int InstagramStats::getPostsCount(String igUserId) {
+	String command = "/v10.0/" + igUserId + "?fields=media_count&access_token=" + _accessToken;
+	String response = sendGetToInstagram(command);
+	Serial.println(response);
+
+	if (_debug) Serial.println(response);
+
+  DynamicJsonDocument doc(1024);
+  auto error = deserializeJson(doc,response);
+        if (error) {
+        Serial.print(F("deserializeJson() failed with code "));
+        Serial.println(error.c_str());
+        } 
+        else {
+        Serial.println("JSON parsing worked!"); 
+        return doc["media_count"].as<int>();
+        }
+  return -1;
+}
+
 
 void InstagramStats::closeClient() {
   if(client->connected()){
